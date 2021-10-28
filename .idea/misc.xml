@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/FCIS/Graduation_CS/Projects/GraduationProjectApp/app/src/main/res/layout/activity_main.xml" value="0.2421875" />
+        <entry key="..\:/FCIS/Graduation_CS/Projects/GraduationProjectApp/app/src/main/res/layout/fragment_home.xml" value="0.2421875" />
+        <entry key="..\:/FCIS/Graduation_CS/Projects/GraduationProjectApp/app/src/main/res/layout/login_form.xml" value="0.2421875" />
+        <entry key="..\:/FCIS/Graduation_CS/Projects/GraduationProjectApp/app/src/main/res/layout/register_form.xml" value="0.264" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.13425925925925927" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2578125" />
       </map>
