@@ -1,4 +1,4 @@
-package com.example.graduationproject.presentation;
+package com.example.graduationproject.presentation.main;
 
 import android.os.Bundle;
 
