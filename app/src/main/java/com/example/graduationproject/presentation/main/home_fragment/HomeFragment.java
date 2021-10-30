@@ -20,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.graduationproject.R;
@@ -28,7 +27,6 @@ import com.example.graduationproject.common.RealPathUtil;
 import com.example.graduationproject.common.SharedPreferenceManger;
 import com.example.graduationproject.common.Utils;
 import com.example.graduationproject.databinding.FragmentHomeBinding;
-import com.example.graduationproject.domian.model.login.LoginData;
 
 import java.io.File;
 
@@ -66,14 +64,11 @@ public class HomeFragment extends Fragment implements OnImageUriSelected {
 
         viewModel.login();
 
-        viewModel.loginDataLiveData.observe(getViewLifecycleOwner(), new Observer<LoginData>() {
-            @Override
-            public void onChanged(LoginData loginData) {
-                sharedPreferenceManger.setToken(loginData.getData().getToken());
-                sharedPreferenceManger.setHasLoggedIn(true);
-                Toast.makeText(requireContext(), "token is: " + sharedPreferenceManger.getToken(), Toast.LENGTH_LONG).show();
+        viewModel.loginDataLiveData.observe(getViewLifecycleOwner(), loginResponse -> {
+            sharedPreferenceManger.setToken(loginResponse.getData().getToken());
+            sharedPreferenceManger.setHasLoggedIn(true);
+            Toast.makeText(requireContext(), "token is: " + sharedPreferenceManger.getToken(), Toast.LENGTH_LONG).show();
 
-            }
         });
 
         Toast.makeText(requireContext(), "token is: " + sharedPreferenceManger.getToken(), Toast.LENGTH_LONG).show();

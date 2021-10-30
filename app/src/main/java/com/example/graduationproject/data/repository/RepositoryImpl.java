@@ -1,12 +1,11 @@
 package com.example.graduationproject.data.repository;
 
 import com.example.graduationproject.data.data_source.network.ApiService;
-import com.example.graduationproject.domian.model.login.LoginData;
+import com.example.graduationproject.domian.model.login.LoginResponse;
 
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.core.Single;
-import retrofit2.Call;
 
 public class RepositoryImpl {
     private ApiService apiService;
@@ -16,7 +15,7 @@ public class RepositoryImpl {
         this.apiService = apiService;
     }
 
-    public Single<LoginData> login() {
+    public Single<LoginResponse> login() {
         return apiService.login();
     }
 }

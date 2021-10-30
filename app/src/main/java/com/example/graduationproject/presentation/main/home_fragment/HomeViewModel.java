@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.graduationproject.data.repository.RepositoryImpl;
-import com.example.graduationproject.domian.model.login.LoginData;
+import com.example.graduationproject.domian.model.login.LoginResponse;
 
 import javax.inject.Inject;
 
@@ -21,8 +21,8 @@ public class HomeViewModel extends ViewModel {
 
     private final RepositoryImpl repository;
 
-    private final MutableLiveData<LoginData> loginDataMutableLiveData = new MutableLiveData<>();
-    public LiveData<LoginData> loginDataLiveData = loginDataMutableLiveData;
+    private final MutableLiveData<LoginResponse> loginDataMutableLiveData = new MutableLiveData<>();
+    public LiveData<LoginResponse> loginDataLiveData = loginDataMutableLiveData;
 
 
     @Inject
@@ -35,7 +35,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void login() {
-        Single<LoginData> observable = repository.login()
+        Single<LoginResponse> observable = repository.login()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 
