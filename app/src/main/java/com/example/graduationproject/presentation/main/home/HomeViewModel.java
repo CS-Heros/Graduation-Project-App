@@ -1,4 +1,4 @@
-package com.example.graduationproject.presentation.main.home_fragment;
+package com.example.graduationproject.presentation.main.home;
 
 import android.util.Log;
 

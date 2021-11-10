@@ -8,5 +8,20 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="mainColor">@android:color/black</color>
+    <color name="mainColor">#212121</color>
+    <color name="mainScreenColor">@color/black</color>
+    <color name="mainStatusBarColor">@color/mainColor</color>
+
+    <color name="textMainColor">@color/white</color>
+    <color name="secondaryTextColor">@color/white</color>
+
+    <color name="gray">#F2F3F2</color>
+    <color name="dark_gray">#7C7C7C</color>
+    <color name="grey_2">#d3d3d3</color>
+    <color name="grey_3">#6e6a6a</color>
+    <color name="light_grey">#e0e0e0</color>
+    <color name="strokeColor">#E2E2E2</color>
+
+    <color name="secondaryColor">#8743FF</color>
+    <color name="hintTextColor">@color/white</color>
 </resources>

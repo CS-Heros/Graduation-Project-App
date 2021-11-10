@@ -1,4 +1,4 @@
-package com.example.graduationproject.presentation;
+package com.example.graduationproject.presentation.main.result;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,19 +9,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.graduationproject.databinding.FragmentEmptyBinding;
+import com.example.graduationproject.databinding.FragmentResultBinding;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class EmptyFragment extends Fragment {
+public class ResultFragment extends Fragment {
 
-    private FragmentEmptyBinding binding;
+    private FragmentResultBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentEmptyBinding.inflate(inflater, container, false);
+        binding = FragmentResultBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

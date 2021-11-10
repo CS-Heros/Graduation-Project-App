@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.GraduationProject" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="Theme.GraduationProject" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -10,9 +10,12 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:textAllCaps">false</item>
+
+        <item name="android:statusBarColor">@color/mainScreenColor</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="textAllCaps">false</item>
     </style>
 
     <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -21,4 +24,73 @@
         <item name="android:navigationBarColor">@color/mainColor</item>
     </style>
 
+    <style name="headerTextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/textMainColor</item>
+        <item name="android:textSize">@dimen/_16ssp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="theme">@style/singleLine</item>
+    </style>
+
+    <style name="bodyTextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="theme">@style/singleLine</item>
+    </style>
+
+    <style name="roundInputTextField" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/_12sdp</item>
+        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/_12sdp</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/_12sdp</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/_12sdp</item>
+        <item name="boxBackgroundColor">#1A1A1A</item>
+        <item name="boxCornerRadiusTopStart">@dimen/_12sdp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+    </style>
+
+    <style name="roundButton" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/_46sdp</item>
+        <item name="android:layout_marginStart">@dimen/_12sdp</item>
+        <item name="android:layout_marginEnd">@dimen/_12sdp</item>
+        <item name="android:layout_marginTop">@dimen/_12sdp</item>
+        <item name="android:background">@drawable/four_corner_background</item>
+    </style>
+
+    <style name="topRoundCorners" parent="CardView">
+        <item name="cornerSizeTopLeft">@dimen/_12sdp</item>
+        <item name="cornerSizeTopRight">@dimen/_12sdp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.SelectedCornerRadius" parent="">
+        <item name="cornerSizeBottomRight">40dp</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerSizeBottomLeft">40dp</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+    </style>
+
+    <style name="singleLine">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="Circular">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="Cornered">
+        <item name="cornerSize">20%</item>
+    </style>
+
+    <style name="roundShapeableImage">
+        <item name="shapeAppearanceOverlay">@style/Circular</item>
+    </style>
+
+    <style name="corneredShapeableImage">
+        <item name="shapeAppearanceOverlay">@style/Cornered</item>
+    </style>
 </resources>

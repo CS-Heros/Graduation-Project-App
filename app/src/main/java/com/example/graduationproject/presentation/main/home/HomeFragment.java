@@ -1,10 +1,10 @@
-package com.example.graduationproject.presentation.main.home_fragment;
+package com.example.graduationproject.presentation.main.home;
 
 
 import static com.example.graduationproject.common.Constants.IMAGE_MULTI_PART_NAME;
+import static com.example.graduationproject.common.Utils.getImageAsMultiBodyPart;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,20 +23,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.graduationproject.R;
-import com.example.graduationproject.common.RealPathUtil;
 import com.example.graduationproject.common.SharedPreferenceManger;
 import com.example.graduationproject.common.Utils;
 import com.example.graduationproject.databinding.FragmentHomeBinding;
-
-import java.io.File;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import gun0912.tedimagepicker.builder.TedImagePicker;
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 @AndroidEntryPoint
 public class HomeFragment extends Fragment implements OnImageUriSelected {
@@ -120,16 +115,6 @@ public class HomeFragment extends Fragment implements OnImageUriSelected {
 
     }
 
-    private MultipartBody.Part getImageAsMultiBodyPart(Context context, Uri uri, String name) {
-
-        String path = RealPathUtil.getRealPath(context, uri);
-        File file = new File(path);
-
-        RequestBody requestBody = RequestBody.create
-                (MediaType.parse(requireActivity().getContentResolver().getType(uri)), file);
-
-        return MultipartBody.Part.createFormData(name, file.getName(), requestBody);
-    }
 
     @Override
     public void onSelect(Uri uri) {
