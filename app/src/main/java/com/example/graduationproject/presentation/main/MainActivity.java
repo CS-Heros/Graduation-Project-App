@@ -24,11 +24,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.nav_host_fragment);
-        NavController navController = navHostFragment.getNavController();
+//        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.home_nav_host_fragment);
+//        NavController navController = navHostFragment.getNavController();
 
-        NavigationUI.setupActionBarWithNavController(this, navController);
+//        NavigationUI.setupActionBarWithNavController(this, navController);
 
     }
 }

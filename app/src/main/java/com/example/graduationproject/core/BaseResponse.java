@@ -1,23 +1,12 @@
 package com.example.graduationproject.core;
 
-import java.util.List;
-
-public class BaseResponse<D, I> {
+public class BaseResponse {
     private String status;
-    private D data;
-    private I included;
-    private List<Error> errors;
+    private String error;
 
-    public static class Error {
-        private String title;
-        private String message;
-    }
-
-    public BaseResponse(String status, D data, I included, List<Error> errors) {
+    public BaseResponse(String status, String error) {
         this.status = status;
-        this.data = data;
-        this.included = included;
-        this.errors = errors;
+        this.error = error;
     }
 
     public String getStatus() {
@@ -28,27 +17,11 @@ public class BaseResponse<D, I> {
         this.status = status;
     }
 
-    public D getData() {
-        return data;
+    public String getError() {
+        return error;
     }
 
-    public void setData(D data) {
-        this.data = data;
-    }
-
-    public I getIncluded() {
-        return included;
-    }
-
-    public void setIncluded(I included) {
-        this.included = included;
-    }
-
-    public List<Error> getErrors() {
-        return errors;
-    }
-
-    public void setErrors(List<Error> errors) {
-        this.errors = errors;
+    public void setError(String error) {
+        this.error = error;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.graduationproject.presentation.main.home_fragment;
+package com.example.graduationproject.presentation.auth.login;
 
 import android.util.Log;
 
@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.graduationproject.data.repository.RepositoryImpl;
-import com.example.graduationproject.domian.model.login.LoginResponse;
+import com.example.graduationproject.domian.model.auth.AuthResponse;
 
 import javax.inject.Inject;
 
@@ -17,34 +17,28 @@ import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @HiltViewModel
-public class HomeViewModel extends ViewModel {
+public class LoginViewModel extends ViewModel {
 
     private final RepositoryImpl repository;
 
-    private final MutableLiveData<LoginResponse> loginDataMutableLiveData = new MutableLiveData<>();
-    public LiveData<LoginResponse> loginDataLiveData = loginDataMutableLiveData;
-
+    private final MutableLiveData<AuthResponse> authDataMutableLiveData = new MutableLiveData<>();
+    public LiveData<AuthResponse> authDataLiveData = authDataMutableLiveData;
 
     @Inject
-    public HomeViewModel(RepositoryImpl repository) {
+    public LoginViewModel(RepositoryImpl repository) {
         this.repository = repository;
     }
 
-    String getFakeText() {
-        return "fake";
-    }
 
-    public void login() {
-        Single<LoginResponse> observable = repository.login()
+    public void login(String email, String password) {
+        Single<AuthResponse> observable = repository.login(email, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 
-
-        observable.subscribe(value ->
-                loginDataMutableLiveData.setValue(value), error ->
+        observable.subscribe(authDataMutableLiveData::setValue, error ->
                 Log.e("TAG", "login: " + error)
         );
-    }
 
+    }
 
 }
