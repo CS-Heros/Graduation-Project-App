@@ -57,17 +57,7 @@ public class HomeFragment extends Fragment implements OnImageUriSelected {
         listener = this;
         handleClicks();
 
-        viewModel.login();
-
-        viewModel.loginDataLiveData.observe(getViewLifecycleOwner(), loginResponse -> {
-            sharedPreferenceManger.setToken(loginResponse.getData().getToken());
-            sharedPreferenceManger.setHasLoggedIn(true);
-            Toast.makeText(requireContext(), "token is: " + sharedPreferenceManger.getToken(), Toast.LENGTH_LONG).show();
-
-        });
-
         Toast.makeText(requireContext(), "token is: " + sharedPreferenceManger.getToken(), Toast.LENGTH_LONG).show();
-
     }
 
     private void checkForCameraPermission() {

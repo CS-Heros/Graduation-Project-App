@@ -1,5 +1,7 @@
 package com.example.graduationproject.presentation.auth.register;
 
+import static com.example.graduationproject.common.Utils.toastMe;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,9 +15,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import com.example.graduationproject.common.SharedPreferenceManger;
 import com.example.graduationproject.common.Utils;
 import com.example.graduationproject.databinding.FragmentRegisterBinding;
 import com.example.graduationproject.presentation.main.MainActivity;
+
+import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -24,6 +29,9 @@ public class RegisterFragment extends Fragment {
 
     private FragmentRegisterBinding binding;
     private RegisterViewModel viewModel;
+
+    @Inject
+    public SharedPreferenceManger sharedPreferenceManger;
 
     @Nullable
     @Override
@@ -37,6 +45,7 @@ public class RegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         handleClicks();
+        observeData();
     }
 
     private void handleClicks() {
@@ -48,16 +57,19 @@ public class RegisterFragment extends Fragment {
         binding.registerBtn.setOnClickListener(v -> {
             String error = handleInputs();
             if (error.equals("")) {
-                String name = binding.emailEt.getText().toString();
+                String name = binding.nameEt.getText().toString();
+                String email = binding.emailEt.getText().toString();
                 String password = binding.passwordEt.getText().toString();
-                viewModel.register(name, password);
+
+                binding.loadingPbView.loadingPb.setVisibility(View.VISIBLE);
+                viewModel.register(name, email, password);
 
                 // navigate after login is success
                 startActivity(new Intent(requireContext(), MainActivity.class));
                 requireActivity().finish();
 
             } else {
-                Utils.toastMy(requireContext(), error, false);
+                Utils.toastMe(requireContext(), error, false);
             }
         });
     }
@@ -73,5 +85,26 @@ public class RegisterFragment extends Fragment {
             return "The password don't match confirm password";
         }
         return "";
+    }
+
+    private void observeData() {
+        viewModel.authDataLiveData.observe(getViewLifecycleOwner(), authResponse -> {
+            binding.loadingPbView.loadingPb.setVisibility(View.GONE);
+            String error = authResponse.getError();
+            if (error.isEmpty()) {
+                // success
+                String token = authResponse.getData().getToken();
+
+                sharedPreferenceManger.setHasLoggedIn(true);
+                sharedPreferenceManger.setToken(token);
+                // navigate after login is success
+                startActivity(new Intent(requireContext(), MainActivity.class));
+                requireActivity().finish();
+
+            } else {
+                // fail
+                toastMe(requireContext(), error, false);
+            }
+        });
     }
 }

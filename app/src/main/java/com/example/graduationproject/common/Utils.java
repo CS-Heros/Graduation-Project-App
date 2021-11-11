@@ -41,7 +41,7 @@ public class Utils {
                 .into(imageView);
     }
 
-    public static void toastMy(Context context, String message, boolean success) {
+    public static void toastMe(Context context, String message, boolean success) {
         if (success) {
             Toasty.success(context, message, Toasty.LENGTH_SHORT).show();
         } else {

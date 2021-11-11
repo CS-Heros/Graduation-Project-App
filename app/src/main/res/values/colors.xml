@@ -24,4 +24,6 @@
 
     <color name="secondaryColor">#8743FF</color>
     <color name="hintTextColor">@color/white</color>
+
+    <color name="spinKitColor">#ff00ff</color>
 </resources>
