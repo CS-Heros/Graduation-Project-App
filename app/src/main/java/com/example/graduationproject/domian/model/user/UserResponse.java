@@ -1,9 +1,12 @@
 package com.example.graduationproject.domian.model.user;
 
-public class UserResponse {
+import com.example.graduationproject.core.BaseResponse;
+
+public class UserResponse extends BaseResponse {
     private User data;
 
-    public UserResponse(User data) {
+    public UserResponse(String type, String error, User data) {
+        super(type, error);
         this.data = data;
     }
 

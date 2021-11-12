@@ -17,10 +17,10 @@ import retrofit2.http.Query;
 public interface ApiService {
 
     @POST("login")
-    Single<AuthResponse> login(@Query("email") String email, @Query("password") String password);
+    Call<AuthResponse> login(@Query("email") String email, @Query("password") String password);
 
     @POST("register")
-    Single<AuthResponse> register(@Query("name") String name, @Query("email") String email, @Query("password") String password);
+    Call<AuthResponse> register(@Query("name") String name, @Query("email") String email, @Query("password") String password);
 
     @GET("diseases")
     Call<FakeListResponse> getFakeListResponse(@Header("Authorization") String token);

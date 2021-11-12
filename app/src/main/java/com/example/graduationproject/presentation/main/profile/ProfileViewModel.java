@@ -42,6 +42,7 @@ public class ProfileViewModel extends ViewModel {
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 Log.e("TAG", "onFailure: " + t.getLocalizedMessage());
+                _userData.setValue(new UserResponse("", "Please Check Internet connection!", null));
             }
         });
     }

@@ -1,9 +1,9 @@
 package com.example.graduationproject.presentation.main.profile;
 
 import static com.example.graduationproject.common.Utils.setImageUsingGlide;
+import static com.example.graduationproject.common.Utils.toastMe;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.graduationproject.R;
 import com.example.graduationproject.databinding.FragmentProfileBinding;
 import com.example.graduationproject.domian.model.fakeListResponse.FakeListItem;
 import com.example.graduationproject.domian.model.user.User;
@@ -59,12 +58,16 @@ public class ProfileFragment extends Fragment {
     private void observeData() {
         viewModel.userData.observe(getViewLifecycleOwner(), userResponse -> {
             binding.loadingPbView.loadingPb.setVisibility(View.GONE);
-            binding.profileGroup.setVisibility(View.VISIBLE);
 
-            User user = userResponse.getData();
-            setImageUsingGlide(binding.shapeableImageView, user.getAvatar());
-            binding.nameTv.setText("" + user.getName());
+            if (userResponse.getError().isEmpty()) {
+                binding.profileGroup.setVisibility(View.VISIBLE);
 
+                User user = userResponse.getData();
+                setImageUsingGlide(binding.shapeableImageView, user.getAvatar());
+                binding.nameTv.setText("" + user.getName());
+            } else {
+                toastMe(requireContext(), userResponse.getError(), false);
+            }
         });
     }
 

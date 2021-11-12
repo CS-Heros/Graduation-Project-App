@@ -2,10 +2,10 @@ package com.example.graduationproject.presentation.main.result;
 
 import static com.example.graduationproject.common.Utils.getImageAsMultiBodyPart;
 import static com.example.graduationproject.common.Utils.setImageUsingGlide;
+import static com.example.graduationproject.common.Utils.toastMe;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,13 +52,17 @@ public class ResultFragment extends Fragment {
     private void observeData() {
         viewModel.diseaseImage.observe(getViewLifecycleOwner(), fakeListResponse -> {
             binding.loadingPbView.loadingPb.setVisibility(View.GONE);
-            binding.resultGroup.setVisibility(View.VISIBLE);
+            if (fakeListResponse.getError().isEmpty()) {
+                binding.resultGroup.setVisibility(View.VISIBLE);
 
-            List<FakeListItem> fakeList = fakeListResponse.getData().getDiseases();
-            if (fakeList != null && fakeList.size() > 0) {
-                setImageUsingGlide(binding.shapeableImageView, fakeList.get(0).getImg());
-                binding.aboutTitleTv.setText(fakeList.get(0).getName());
-                binding.aboutTextTv.setText(fakeList.get(0).getDescription());
+                List<FakeListItem> fakeList = fakeListResponse.getData().getDiseases();
+                if (fakeList != null && fakeList.size() > 0) {
+                    setImageUsingGlide(binding.shapeableImageView, fakeList.get(0).getImg());
+                    binding.aboutTitleTv.setText(fakeList.get(0).getName());
+                    binding.aboutTextTv.setText(fakeList.get(0).getDescription());
+                }
+            } else {
+                toastMe(requireContext(), fakeListResponse.getError(), false);
             }
         });
     }

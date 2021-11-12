@@ -1,7 +1,8 @@
 package com.example.graduationproject.presentation.main.home;
 
+import static com.example.graduationproject.common.Utils.toastMe;
+
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,14 +74,18 @@ public class HomeFragment extends Fragment {
     private void observeData() {
         viewModel.fakeListResponseDataLiveData.observe(getViewLifecycleOwner(), fakeListResponse -> {
             binding.loadingPbView.loadingPb.setVisibility(View.GONE);
-            List<FakeListItem> fakeList = fakeListResponse.getData().getDiseases();
-            if (fakeList != null && fakeList.size() > 0) {
-                binding.homeScreenGroup.setVisibility(View.VISIBLE);
-                precautionAdapter.submitList(fakeList);
-                diseaseAdapter.submitList(fakeList);
-                symptomAdapter.submitList(fakeList);
-            }
 
+            if (fakeListResponse.getError().isEmpty()) {
+                List<FakeListItem> fakeList = fakeListResponse.getData().getDiseases();
+                if (fakeList != null && fakeList.size() > 0) {
+                    binding.homeScreenGroup.setVisibility(View.VISIBLE);
+                    precautionAdapter.submitList(fakeList);
+                    diseaseAdapter.submitList(fakeList);
+                    symptomAdapter.submitList(fakeList);
+                }
+            } else {
+                toastMe(requireContext(), fakeListResponse.getError(), false);
+            }
         });
     }
 

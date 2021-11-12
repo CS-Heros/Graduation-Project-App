@@ -39,7 +39,7 @@ public class ResultViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<FakeListResponse> call, Throwable t) {
-
+                _diseaseImage.setValue(new FakeListResponse("", "Please Check Internet connection!", null));
             }
         });
     }

@@ -23,11 +23,11 @@ public class RepositoryImpl {
         this.sharedPreferenceManger = sharedPreferenceManger;
     }
 
-    public Single<AuthResponse> login(String email, String password) {
+    public Call<AuthResponse> login(String email, String password) {
         return apiService.login(email, password);
     }
 
-    public Single<AuthResponse> register(String name, String email, String password) {
+    public Call<AuthResponse> register(String name, String email, String password) {
         return apiService.register(name, email, password);
     }
 

@@ -1,7 +1,5 @@
 package com.example.graduationproject.presentation.auth.register;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -12,9 +10,9 @@ import com.example.graduationproject.domian.model.auth.AuthResponse;
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 @HiltViewModel
 public class RegisterViewModel extends ViewModel {
@@ -31,12 +29,18 @@ public class RegisterViewModel extends ViewModel {
 
 
     public void register(String name, String email, String password) {
-        Single<AuthResponse> observable = repository.register(name, email, password)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        repository.register(name, email, password).enqueue(new Callback<AuthResponse>() {
+            @Override
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                if (response.isSuccessful()) {
+                    authDataMutableLiveData.setValue(response.body());
+                }
+            }
 
-        observable.subscribe(authDataMutableLiveData::setValue, error ->
-                Log.e("TAG", "login: " + error)
-        );
+            @Override
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+                authDataMutableLiveData.setValue(new AuthResponse("", "Please Check Internet connection!", null));
+            }
+        });
     }
 }

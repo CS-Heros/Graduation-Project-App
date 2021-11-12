@@ -1,6 +1,7 @@
 package com.example.graduationproject.presentation.main.settings;
 
 import static com.example.graduationproject.common.Utils.setImageUsingGlide;
+import static com.example.graduationproject.common.Utils.toastMe;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -48,13 +49,16 @@ public class SettingsFragment extends Fragment {
     private void observeData() {
         viewModel.userData.observe(getViewLifecycleOwner(), userResponse -> {
             binding.loadingPbView.loadingPb.setVisibility(View.GONE);
-            binding.settingsGroup.setVisibility(View.VISIBLE);
+            if (userResponse.getError().isEmpty()) {
+                binding.settingsGroup.setVisibility(View.VISIBLE);
 
-            User user = userResponse.getData();
-            setImageUsingGlide(binding.shapeableImageView, user.getAvatar());
-            binding.nameEt.setText("" + user.getName());
-            binding.emailEt.setText("" + user.getEmail());
-
+                User user = userResponse.getData();
+                setImageUsingGlide(binding.shapeableImageView, user.getAvatar());
+                binding.nameEt.setText("" + user.getName());
+                binding.emailEt.setText("" + user.getEmail());
+            } else {
+                toastMe(requireContext(), userResponse.getError(), false);
+            }
         });
     }
 }

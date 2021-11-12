@@ -64,10 +64,6 @@ public class RegisterFragment extends Fragment {
                 binding.loadingPbView.loadingPb.setVisibility(View.VISIBLE);
                 viewModel.register(name, email, password);
 
-                // navigate after login is success
-                startActivity(new Intent(requireContext(), MainActivity.class));
-                requireActivity().finish();
-
             } else {
                 Utils.toastMe(requireContext(), error, false);
             }

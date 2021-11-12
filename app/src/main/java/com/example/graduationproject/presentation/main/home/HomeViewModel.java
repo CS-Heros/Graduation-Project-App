@@ -1,5 +1,7 @@
 package com.example.graduationproject.presentation.main.home;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -47,7 +49,9 @@ public class HomeViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<FakeListResponse> call, Throwable t) {
-
+                Log.e("TAG", "onFailure: " + t.getLocalizedMessage());
+                fakeListResponseDataMutableLiveData.
+                        setValue(new FakeListResponse("", "Please Check Internet connection!", null));
             }
         });
     }
