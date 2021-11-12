@@ -1,4 +1,4 @@
-package com.example.graduationproject.presentation.main.home;
+package com.example.graduationproject.presentation.main.scan;
 
 import android.net.Uri;
 

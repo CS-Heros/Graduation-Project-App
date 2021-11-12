@@ -1,20 +1,20 @@
 package com.example.graduationproject.core;
 
 public class BaseResponse {
-    private String status;
+    private String type;
     private String error;
 
-    public BaseResponse(String status, String error) {
-        this.status = status;
+    public BaseResponse(String type, String error) {
+        this.type = type;
         this.error = error;
     }
 
-    public String getStatus() {
-        return status;
+    public String getType() {
+        return type;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getError() {

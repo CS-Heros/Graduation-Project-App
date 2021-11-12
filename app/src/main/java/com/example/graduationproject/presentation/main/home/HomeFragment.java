@@ -1,51 +1,46 @@
 package com.example.graduationproject.presentation.main.home;
 
-
-import static com.example.graduationproject.common.Constants.IMAGE_MULTI_PART_NAME;
-import static com.example.graduationproject.common.Utils.getImageAsMultiBodyPart;
-
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
-import com.example.graduationproject.R;
 import com.example.graduationproject.common.SharedPreferenceManger;
-import com.example.graduationproject.common.Utils;
 import com.example.graduationproject.databinding.FragmentHomeBinding;
+import com.example.graduationproject.domian.model.fakeListResponse.FakeListItem;
+import com.example.graduationproject.presentation.adapter.home_adapter.HomeAdapter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import gun0912.tedimagepicker.builder.TedImagePicker;
-import okhttp3.MultipartBody;
 
 @AndroidEntryPoint
-public class HomeFragment extends Fragment implements OnImageUriSelected {
+public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
-    private OnImageUriSelected listener;
+
+    private HomeAdapter precautionAdapter = new HomeAdapter();
+    private HomeAdapter diseaseAdapter = new HomeAdapter();
+    private HomeAdapter symptomAdapter = new HomeAdapter();
 
     @Inject
-    public SharedPreferenceManger sharedPreferenceManger;
+    SharedPreferenceManger sharedPreferenceManger;
+
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -54,62 +49,39 @@ public class HomeFragment extends Fragment implements OnImageUriSelected {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        listener = this;
         handleClicks();
+        setUpRVs();
+        observeData();
+        binding.loadingPbView.loadingPb.setVisibility(View.VISIBLE);
+        viewModel.getFakeListResponse();
 
-        Toast.makeText(requireContext(), "token is: " + sharedPreferenceManger.getToken(), Toast.LENGTH_LONG).show();
     }
 
-    private void checkForCameraPermission() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            // You can use the Camera
-            pickImage();
-        } else {
-            requestPermissionLauncher.launch(Manifest.permission.CAMERA);
-        }
+    private void setUpRVs() {
+        binding.precautionRv.setAdapter(precautionAdapter);
+        binding.diseaseRv.setAdapter(diseaseAdapter);
+        binding.symptomRv.setAdapter(symptomAdapter);
     }
 
     private void handleClicks() {
-
-        binding.openGalleryBtn.setOnClickListener(view -> {
-            checkForCameraPermission();
+        binding.goToScanBtn.setOnClickListener(v -> {
+            NavDirections action = HomeFragmentDirections.actionHomeFragmentToScanFragment();
+            Navigation.findNavController(requireView()).navigate(action);
         });
     }
 
-    private ActivityResultLauncher<String> requestPermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                if (isGranted) {
-                    // Permission is granted. Continue the action or workflow in your app
-                    pickImage();
-                } else {
-                    Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show();
-                }
-            });
+    private void observeData() {
+        viewModel.fakeListResponseDataLiveData.observe(getViewLifecycleOwner(), fakeListResponse -> {
+            binding.loadingPbView.loadingPb.setVisibility(View.GONE);
+            List<FakeListItem> fakeList = fakeListResponse.getData().getDiseases();
+            if (fakeList != null && fakeList.size() > 0) {
+                binding.homeScreenGroup.setVisibility(View.VISIBLE);
+                precautionAdapter.submitList(fakeList);
+                diseaseAdapter.submitList(fakeList);
+                symptomAdapter.submitList(fakeList);
+            }
 
-
-    private void pickImage() {
-        TedImagePicker.with(requireContext())
-                .title("Choose image")
-                .backButton(R.drawable.ic_arrow_back_black_24dp)
-                .showCameraTile(true)
-                .buttonBackground(R.drawable.btn_done_button)
-                .buttonTextColor(R.color.white)
-                .buttonText("Choose image")
-                .errorListener(throwable -> {
-                    Log.e("TAG", "pickImage: error " + throwable.getLocalizedMessage());
-                })
-                .start(uri -> {
-                    Log.e("TAG", "pickImage: " + uri.toString());
-                    listener.onSelect(uri);
-                });
-
+        });
     }
 
-
-    @Override
-    public void onSelect(Uri uri) {
-        Utils.setImageUsingGlide(binding.selectedImageIv, uri.toString());
-        MultipartBody.Part image = getImageAsMultiBodyPart(requireContext(), uri, IMAGE_MULTI_PART_NAME);
-        Log.e("TAG", "onSelect: " + image.toString());
-    }
 }

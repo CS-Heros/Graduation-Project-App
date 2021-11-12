@@ -40,7 +40,7 @@ public class SharedPreferenceManger {
     }
 
     public void setToken(String token) {
-        setValue(TOKEN, token);
+        setValue(TOKEN, "Bearer " + token);
     }
 
     private void setValue(String key, String value) {

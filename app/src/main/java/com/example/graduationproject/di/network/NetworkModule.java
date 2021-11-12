@@ -3,6 +3,7 @@ package com.example.graduationproject.di.network;
 
 import com.example.graduationproject.BuildConfig;
 import com.example.graduationproject.common.Constants;
+import com.example.graduationproject.common.SharedPreferenceManger;
 import com.example.graduationproject.data.data_source.network.ApiService;
 import com.example.graduationproject.data.repository.RepositoryImpl;
 
@@ -27,6 +28,26 @@ public class NetworkModule {
 
     @Provides
     @Singleton
+    public static ApiService providePokemonApiService(
+            OkHttpClient okHttpClient
+    ) {
+        return new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .client(okHttpClient)
+                .build()
+                .create(ApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    public static RepositoryImpl provideCovidRepository(ApiService apiService, SharedPreferenceManger sharedPreferenceManger) {
+        return new RepositoryImpl(apiService, sharedPreferenceManger);
+    }
+
+    @Provides
+    @Singleton
     HttpLoggingInterceptor providesLoggingInterceptor() {
         return new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC);
     }
@@ -42,27 +63,6 @@ public class NetworkModule {
 
         if (BuildConfig.DEBUG) client.addInterceptor(loggingInterceptor);
         return client.build();
-    }
-
-    @Provides
-    @Singleton
-    public static ApiService providePokemonApiService(
-            OkHttpClient okHttpClient
-    ) {
-        return new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-                .client(okHttpClient)
-                .build()
-                .create(ApiService.class);
-    }
-
-
-    @Provides
-    @Singleton
-    public static RepositoryImpl provideCovidRepository(ApiService apiService) {
-        return new RepositoryImpl(apiService);
     }
 
 }

@@ -10,6 +10,15 @@
     <string name="register_under_lined"><u>Register</u></string>
     <string name="register">Register</string>
     <string name="confirm_password">Confirm password</string>
-    <string name="name">Name</string>
     <string name="about_the_disease">About the disease</string>
+    <string name="preventions">Preventions</string>
+    <string name="disease">Diseases</string>
+    <string name="symptom">Symptoms</string>
+    <string name="precaution">Precautions</string>
+    <string name="very_long_fake_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="try_to_make_test">Try to make test</string>
+    <string name="go_to_scan">Go to Scan</string>
+    <string name="skin_scan">Skin Scan</string>
+    <string name="name">Name</string>
+    <string name="history">History</string>
 </resources>
