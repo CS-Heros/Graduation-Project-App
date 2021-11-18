@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.graduationproject.databinding.ItemDiseaseBinding;
 import com.example.graduationproject.domian.model.fakeListResponse.FakeListItem;
 
-public class HomeAdapter extends ListAdapter<FakeListItem, HomeAdapter.HomeAdapterViewHolder> {
+public class HomeCircularAdapter extends ListAdapter<FakeListItem, HomeCircularAdapter.HomeAdapterViewHolder> {
     private static final DiffUtilHomeItemCallBack CALL_BACK = new DiffUtilHomeItemCallBack();
 
-    public HomeAdapter() {
+    public HomeCircularAdapter() {
         super(CALL_BACK);
     }
 

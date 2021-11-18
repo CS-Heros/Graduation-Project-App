@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.graduationproject.databinding.FragmentResultBinding;
 import com.example.graduationproject.domian.model.fakeListResponse.FakeListItem;
+import com.example.graduationproject.presentation.adapter.home_adapter.HomeCircularAdapter;
 
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class ResultFragment extends Fragment {
 
     private FragmentResultBinding binding;
     private ResultViewModel viewModel;
+    private HomeCircularAdapter precautionAdapter = new HomeCircularAdapter();
+    private HomeCircularAdapter symptomAdapter = new HomeCircularAdapter();
 
     @Nullable
     @Override
@@ -44,9 +47,15 @@ public class ResultFragment extends Fragment {
         binding.loadingPbView.loadingPb.setVisibility(View.VISIBLE);
         MultipartBody.Part img = getImageAsMultiBodyPart(requireActivity(), Uri.parse(ResultFragmentArgs.fromBundle(getArguments()).getImage()), "img");
         viewModel.uploadPhoto(img);
+        setUpRVs();
         observeData();
         handleClicks();
 
+    }
+
+    private void setUpRVs() {
+        binding.precautionRv.setAdapter(precautionAdapter);
+        binding.symptomRv.setAdapter(symptomAdapter);
     }
 
     private void observeData() {
@@ -58,8 +67,12 @@ public class ResultFragment extends Fragment {
                 List<FakeListItem> fakeList = fakeListResponse.getData().getDiseases();
                 if (fakeList != null && fakeList.size() > 0) {
                     setImageUsingGlide(binding.shapeableImageView, fakeList.get(0).getImg());
-                    binding.aboutTitleTv.setText(fakeList.get(0).getName());
-                    binding.aboutTextTv.setText(fakeList.get(0).getDescription());
+                    binding.aboutTitleTv.setText("Name: " + fakeList.get(0).getName());
+                    binding.aboutTextTv.setText("Description: " + fakeList.get(0).getDescription());
+
+                    //TODO set the correct data
+                    precautionAdapter.submitList(fakeList);
+                    symptomAdapter.submitList(fakeList);
                 }
             } else {
                 toastMe(requireContext(), fakeListResponse.getError(), false);

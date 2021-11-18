@@ -26,6 +26,15 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_person" />
 
+        <!--        <ImageView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:src="@drawable/ic_edit"-->
+        <!--            android:background="@color/black"-->
+        <!--            android:layout_margin="@dimen/_12sdp"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/shapeableImageView" />-->
+
         <TextView
             android:id="@+id/name_tv"
             style="@style/headerTextStyle"
@@ -38,35 +47,106 @@
             app:layout_constraintTop_toBottomOf="@+id/shapeableImageView" />
 
         <TextView
-            android:id="@+id/history_tv"
+            android:id="@+id/textView"
             style="@style/headerTextStyle"
+            app:layout_goneMarginStart="@dimen/_4sdp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_12sdp"
-            android:text="@string/history"
+            android:text="@string/allow_saving_images"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name_tv" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/history_rv"
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/save_image_sw"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:background="@drawable/four_corner_background"
+            android:backgroundTint="@color/gray"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView" />
+
+        <View
+            android:id="@+id/guideline2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="1dp"
             android:layout_marginTop="@dimen/_12sdp"
-            android:layout_marginBottom="@dimen/_25sdp"
             android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/history_tv"
-            app:layout_constraintVertical_bias="0"
-            tools:listitem="@layout/item_disease" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/name_input_layout"
+            style="@style/roundInputTextField"
+            android:hint="@string/name"
+            android:textColorHint="@color/hintTextColor"
+            app:hintTextColor="@color/hintTextColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guideline2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/hintTextColor" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/email_input_layout"
+            style="@style/roundInputTextField"
+            android:hint="@string/email"
+            android:textColorHint="@color/hintTextColor"
+            app:hintTextColor="@color/hintTextColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name_input_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/hintTextColor" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/history_tv"-->
+        <!--            style="@style/headerTextStyle"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="@dimen/_12sdp"-->
+        <!--            android:layout_marginTop="@dimen/_12sdp"-->
+        <!--            android:text="@string/history"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/name_tv" />-->
+
+        <!--        <androidx.recyclerview.widget.RecyclerView-->
+        <!--            android:id="@+id/history_rv"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/_12sdp"-->
+        <!--            android:layout_marginBottom="@dimen/_25sdp"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/history_tv"-->
+        <!--            app:layout_constraintVertical_bias="0"-->
+        <!--            tools:listitem="@layout/item_disease" />-->
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/profile_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="shapeableImageView,name_tv,history_rv,history_tv"
+            app:constraint_referenced_ids="textView,save_image_sw,shapeableImageView,name_tv,name_input_layout,email_input_layout"
             tools:visibility="visible" />
 
         <include

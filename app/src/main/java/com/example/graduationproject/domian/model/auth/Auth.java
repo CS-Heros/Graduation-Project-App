@@ -1,10 +1,20 @@
 package com.example.graduationproject.domian.model.auth;
 
 public class Auth {
+    private Long id;
     private String token;
 
-    public Auth(String token) {
+    public Auth(Long id, String token) {
+        this.id = id;
         this.token = token;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getToken() {
@@ -15,9 +25,3 @@ public class Auth {
         this.token = token;
     }
 }
-
-// "data": {
-//        "token": "27|NuhqeJfP2r8YVQ2DvWvMjrfbhBSu7lnJTDqRPRYx",
-//        "relationships": [],
-//        "included": []
-//    },

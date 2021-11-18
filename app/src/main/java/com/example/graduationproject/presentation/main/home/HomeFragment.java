@@ -13,11 +13,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.graduationproject.common.SharedPreferenceManger;
 import com.example.graduationproject.databinding.FragmentHomeBinding;
 import com.example.graduationproject.domian.model.fakeListResponse.FakeListItem;
-import com.example.graduationproject.presentation.adapter.home_adapter.HomeAdapter;
+import com.example.graduationproject.presentation.adapter.home_adapter.HomeCircularAdapter;
+import com.example.graduationproject.presentation.adapter.home_adapter.HomeRowAdapter;
 
 import java.util.List;
 
@@ -31,9 +34,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
 
-    private HomeAdapter precautionAdapter = new HomeAdapter();
-    private HomeAdapter diseaseAdapter = new HomeAdapter();
-    private HomeAdapter symptomAdapter = new HomeAdapter();
+    private HomeRowAdapter historyAdapter = new HomeRowAdapter();
 
     @Inject
     SharedPreferenceManger sharedPreferenceManger;
@@ -59,9 +60,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void setUpRVs() {
-        binding.precautionRv.setAdapter(precautionAdapter);
-        binding.diseaseRv.setAdapter(diseaseAdapter);
-        binding.symptomRv.setAdapter(symptomAdapter);
+        binding.historyRv.setHasFixedSize(true);
+        binding.historyRv.setAdapter(historyAdapter);
     }
 
     private void handleClicks() {
@@ -79,9 +79,7 @@ public class HomeFragment extends Fragment {
                 List<FakeListItem> fakeList = fakeListResponse.getData().getDiseases();
                 if (fakeList != null && fakeList.size() > 0) {
                     binding.homeScreenGroup.setVisibility(View.VISIBLE);
-                    precautionAdapter.submitList(fakeList);
-                    diseaseAdapter.submitList(fakeList);
-                    symptomAdapter.submitList(fakeList);
+                    historyAdapter.submitList(fakeList);
                 }
             } else {
                 toastMe(requireContext(), fakeListResponse.getError(), false);

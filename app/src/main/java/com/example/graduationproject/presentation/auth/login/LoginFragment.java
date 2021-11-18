@@ -4,6 +4,7 @@ import static com.example.graduationproject.common.Utils.toastMe;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.navigation.Navigation;
 
 import com.example.graduationproject.common.SharedPreferenceManger;
 import com.example.graduationproject.databinding.FragmentLoginBinding;
+import com.example.graduationproject.domian.model.auth.Auth;
 import com.example.graduationproject.presentation.main.MainActivity;
 
 import javax.inject.Inject;
@@ -83,10 +85,13 @@ public class LoginFragment extends Fragment {
             String error = authResponse.getError();
             if (error.isEmpty()) {
                 // success
-                String token = authResponse.getData().getToken();
+                Auth auth = authResponse.getData();
+                String token = auth.getToken();
 
                 sharedPreferenceManger.setHasLoggedIn(true);
                 sharedPreferenceManger.setToken(token);
+                Log.e("TAG", "observeData: " + auth.getId());
+                sharedPreferenceManger.setUserId(auth.getId());
                 // navigate after login is success
                 startActivity(new Intent(requireContext(), MainActivity.class));
                 requireActivity().finish();

@@ -2,91 +2,41 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:id="@+id/root"
     tools:context=".presentation.main.home.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/mainScreenColor">
 
         <TextView
-            android:id="@+id/precaution_tv"
+            android:id="@+id/history_tv"
             style="@style/headerTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_12sdp"
-            android:text="@string/precaution"
+            android:text="@string/history"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/precaution_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/precaution_tv"
-            tools:itemCount="20"
-            tools:listitem="@layout/item_disease" />
-
-        <TextView
-            android:id="@+id/disease_tv"
-            style="@style/headerTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:layout_marginTop="@dimen/_25sdp"
-            android:text="@string/disease"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/precaution_rv" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/disease_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/disease_tv"
-            tools:itemCount="20"
-            tools:listitem="@layout/item_disease" />
-
-        <TextView
-            android:id="@+id/symptom_tv"
-            style="@style/headerTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:layout_marginTop="@dimen/_25sdp"
-            android:text="@string/symptom"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/disease_rv" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/symptom_rv"
+            android:id="@+id/history_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_12sdp"
             android:layout_marginBottom="@dimen/_12sdp"
-            android:orientation="horizontal"
+            android:nestedScrollingEnabled="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/symptom_tv"
-            app:layout_constraintVertical_bias="0"
+            app:layout_constraintTop_toBottomOf="@+id/history_tv"
             tools:itemCount="20"
-            tools:listitem="@layout/item_disease" />
-
+            tools:listitem="@layout/row_disease" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView3"
@@ -121,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="precaution_tv,precaution_rv,disease_tv,disease_rv,symptom_tv,symptom_rv"
+            app:constraint_referenced_ids="history_rv,history_tv"
             tools:visibility="visible" />
 
         <include

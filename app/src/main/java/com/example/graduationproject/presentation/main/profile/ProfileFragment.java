@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.graduationproject.databinding.FragmentProfileBinding;
 import com.example.graduationproject.domian.model.fakeListResponse.FakeListItem;
 import com.example.graduationproject.domian.model.user.User;
-import com.example.graduationproject.presentation.adapter.home_adapter.HomeAdapter;
+import com.example.graduationproject.presentation.adapter.home_adapter.HomeCircularAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
     private ProfileViewModel viewModel;
-    private HomeAdapter profileAdapter = new HomeAdapter();
+    private HomeCircularAdapter profileAdapter = new HomeCircularAdapter();
     private List<FakeListItem> fakeListItems = new ArrayList<>();
 
 
@@ -48,7 +48,6 @@ public class ProfileFragment extends Fragment {
 
         binding.loadingPbView.loadingPb.setVisibility(View.VISIBLE);
         viewModel.getUser();
-        setFakeData();
     }
 
     private void handleClicks() {
@@ -65,19 +64,15 @@ public class ProfileFragment extends Fragment {
                 User user = userResponse.getData();
                 setImageUsingGlide(binding.shapeableImageView, user.getAvatar());
                 binding.nameTv.setText("" + user.getName());
+
+                boolean isChecked = user.getAllowToSaveImage().equals("1");
+                binding.saveImageSw.setChecked(isChecked);
+                binding.nameEt.setText("" + user.getName());
+                binding.emailEt.setText("" + user.getEmail());
+
             } else {
                 toastMe(requireContext(), userResponse.getError(), false);
             }
         });
-    }
-
-    private void setFakeData() {
-        fakeListItems.add(new FakeListItem("Covid", "Lethal disease", "http://dls-grad.spider-te8.com/laravel_api.png"));
-        fakeListItems.add(new FakeListItem("Covid", "Lethal disease", "http://dls-grad.spider-te8.com/laravel_api.png"));
-        fakeListItems.add(new FakeListItem("Covid", "Lethal disease", "http://dls-grad.spider-te8.com/laravel_api.png"));
-        fakeListItems.add(new FakeListItem("Covid", "Lethal disease", "http://dls-grad.spider-te8.com/laravel_api.png"));
-
-        binding.historyRv.setAdapter(profileAdapter);
-        profileAdapter.submitList(fakeListItems);
     }
 }

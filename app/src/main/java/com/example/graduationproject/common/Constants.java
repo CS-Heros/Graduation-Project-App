@@ -8,4 +8,5 @@ public class Constants {
     public static String TOKEN = "token key";
     public static String EMPTY_STRING = "";
     public static String HAS_LOGGED_IN = "has logged in";
+    public static String USER_ID = "user_id";
 }
