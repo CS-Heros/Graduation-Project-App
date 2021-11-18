@@ -96,7 +96,6 @@ public class RegisterFragment extends Fragment {
 
                 sharedPreferenceManger.setHasLoggedIn(true);
                 sharedPreferenceManger.setToken(token);
-                Log.e("TAG", "observeData: " + auth.getId());
                 sharedPreferenceManger.setUserId(auth.getId());
 
                 // navigate after login is success

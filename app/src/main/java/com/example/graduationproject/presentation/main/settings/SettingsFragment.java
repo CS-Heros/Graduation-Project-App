@@ -53,7 +53,7 @@ public class SettingsFragment extends Fragment {
                 binding.settingsGroup.setVisibility(View.VISIBLE);
 
                 User user = userResponse.getData();
-                setImageUsingGlide(binding.shapeableImageView, user.getAvatar());
+                setImageUsingGlide(binding.profileImageIv, user.getAvatar());
                 binding.nameEt.setText("" + user.getName());
                 binding.emailEt.setText("" + user.getEmail());
             } else {

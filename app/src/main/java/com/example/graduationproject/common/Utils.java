@@ -2,16 +2,19 @@ package com.example.graduationproject.common;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.graduationproject.R;
+import com.example.graduationproject.presentation.main.utils.OnImageUriSelected;
 import com.facebook.shimmer.Shimmer;
 import com.facebook.shimmer.ShimmerDrawable;
 
 import java.io.File;
 
 import es.dmoral.toasty.Toasty;
+import gun0912.tedimagepicker.builder.TedImagePicker;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -58,5 +61,23 @@ public class Utils {
                 (MediaType.parse(context.getContentResolver().getType(uri)), file);
 
         return okhttp3.MultipartBody.Part.createFormData(name, file.getName(), requestBody);
+    }
+
+    public static void pickImage(Context context, OnImageUriSelected listener) {
+        TedImagePicker.with(context)
+                .title("Choose image")
+                .backButton(R.drawable.ic_arrow_back_black_24dp)
+                .showCameraTile(true)
+                .buttonBackground(R.drawable.btn_done_button)
+                .buttonTextColor(R.color.white)
+                .buttonText("Choose image")
+                .errorListener(throwable -> {
+                    Log.e("TAG", "pickImage: error " + throwable.getLocalizedMessage());
+                })
+                .start(uri -> {
+                    Log.e("TAG", "pickImage: " + uri.toString());
+                    listener.onSelect(uri);
+                });
+
     }
 }

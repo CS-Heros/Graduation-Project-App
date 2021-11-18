@@ -2,9 +2,9 @@ package com.example.graduationproject.data.data_source.network;
 
 import com.example.graduationproject.domian.model.auth.AuthResponse;
 import com.example.graduationproject.domian.model.fakeListResponse.FakeListResponse;
+import com.example.graduationproject.domian.model.updateUserImage.UserImageResponse;
 import com.example.graduationproject.domian.model.user.UserResponse;
 
-import io.reactivex.rxjava3.core.Single;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -31,5 +31,9 @@ public interface ApiService {
     @Multipart
     @POST("diseases")
     Call<FakeListResponse> uploadPhoto(@Header("Authorization") String token, @Part MultipartBody.Part img);
+
+    @Multipart
+    @POST("update_user_avatar")
+    Call<UserImageResponse> updateUserImage(@Header("Authorization") String token, @Part MultipartBody.Part img, @Query("_method") String method);
 
 }

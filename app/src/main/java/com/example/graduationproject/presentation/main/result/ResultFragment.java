@@ -66,7 +66,7 @@ public class ResultFragment extends Fragment {
 
                 List<FakeListItem> fakeList = fakeListResponse.getData().getDiseases();
                 if (fakeList != null && fakeList.size() > 0) {
-                    setImageUsingGlide(binding.shapeableImageView, fakeList.get(0).getImg());
+                    setImageUsingGlide(binding.profileImageIv, fakeList.get(0).getImg());
                     binding.aboutTitleTv.setText("Name: " + fakeList.get(0).getName());
                     binding.aboutTextTv.setText("Description: " + fakeList.get(0).getDescription());
 
@@ -81,7 +81,7 @@ public class ResultFragment extends Fragment {
     }
 
     private void setDataToViews() {
-        setImageUsingGlide(binding.shapeableImageView, ResultFragmentArgs.fromBundle(getArguments()).getImage());
+        setImageUsingGlide(binding.profileImageIv, ResultFragmentArgs.fromBundle(getArguments()).getImage());
     }
 
     private void handleClicks() {

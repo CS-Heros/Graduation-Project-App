@@ -1,11 +1,12 @@
 package com.example.graduationproject.presentation.main.scan;
 
 
+import static com.example.graduationproject.common.Utils.pickImage;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +22,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
-import com.example.graduationproject.R;
 import com.example.graduationproject.common.SharedPreferenceManger;
 import com.example.graduationproject.databinding.FragmentScanBinding;
+import com.example.graduationproject.presentation.main.utils.OnImageUriSelected;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import gun0912.tedimagepicker.builder.TedImagePicker;
 
 @AndroidEntryPoint
 public class ScanFragment extends Fragment implements OnImageUriSelected {
@@ -59,7 +59,7 @@ public class ScanFragment extends Fragment implements OnImageUriSelected {
     private void checkForCameraPermission() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             // You can use the Camera
-            pickImage();
+            pickImage(requireContext(),listener);
         } else {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA);
         }
@@ -76,30 +76,11 @@ public class ScanFragment extends Fragment implements OnImageUriSelected {
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
                     // Permission is granted. Continue the action or workflow in your app
-                    pickImage();
+                    pickImage(requireContext(), listener);
                 } else {
                     Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show();
                 }
             });
-
-
-    private void pickImage() {
-        TedImagePicker.with(requireContext())
-                .title("Choose image")
-                .backButton(R.drawable.ic_arrow_back_black_24dp)
-                .showCameraTile(true)
-                .buttonBackground(R.drawable.btn_done_button)
-                .buttonTextColor(R.color.white)
-                .buttonText("Choose image")
-                .errorListener(throwable -> {
-                    Log.e("TAG", "pickImage: error " + throwable.getLocalizedMessage());
-                })
-                .start(uri -> {
-                    Log.e("TAG", "pickImage: " + uri.toString());
-                    listener.onSelect(uri);
-                });
-
-    }
 
 
     @Override

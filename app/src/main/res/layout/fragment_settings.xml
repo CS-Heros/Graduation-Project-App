@@ -8,16 +8,16 @@
     tools:context=".presentation.main.settings.SettingsFragment">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/shapeableImageView"
+        android:id="@+id/profile_image_iv"
         style="@style/roundShapeableImage"
         android:layout_width="@dimen/_150sdp"
         android:layout_height="@dimen/_150sdp"
-        android:layout_marginTop="@dimen/_25sdp"
+        android:layout_marginTop="@dimen/_46sdp"
         android:scaleType="fitXY"
-        tools:src="@drawable/ic_person"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_person" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -64,7 +64,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/_24sdp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/shapeableImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_image_iv" />
 
     <include
         android:id="@+id/loading_pb_view"
@@ -84,7 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="shapeableImageView,name_input_layout,email_input_layout"
+        app:constraint_referenced_ids="profile_image_iv,name_input_layout,email_input_layout"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
