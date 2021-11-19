@@ -3,6 +3,7 @@ package com.example.graduationproject.presentation.main.home;
 import static com.example.graduationproject.common.Utils.toastMe;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.graduationproject.common.SharedPreferenceManger;
 import com.example.graduationproject.databinding.FragmentHomeBinding;
 import com.example.graduationproject.domian.model.fakeListResponse.FakeListItem;
-import com.example.graduationproject.presentation.adapter.home_adapter.HomeCircularAdapter;
 import com.example.graduationproject.presentation.adapter.home_adapter.HomeRowAdapter;
 
 import java.util.List;
@@ -67,6 +65,12 @@ public class HomeFragment extends Fragment {
     private void handleClicks() {
         binding.goToScanBtn.setOnClickListener(v -> {
             NavDirections action = HomeFragmentDirections.actionHomeFragmentToScanFragment();
+            Navigation.findNavController(requireView()).navigate(action);
+        });
+
+        historyAdapter.setOnDiseaseClickListener(id -> {
+            Log.e("TAG", "home: "+id);
+            NavDirections action = HomeFragmentDirections.actionHomeFragmentToResultFragment(id, null);
             Navigation.findNavController(requireView()).navigate(action);
         });
     }

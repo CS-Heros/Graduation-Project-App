@@ -22,7 +22,10 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
+import com.example.graduationproject.common.EditType;
 import com.example.graduationproject.databinding.FragmentProfileBinding;
 import com.example.graduationproject.domian.model.fakeListResponse.FakeListItem;
 import com.example.graduationproject.domian.model.user.User;
@@ -41,6 +44,7 @@ public class ProfileFragment extends Fragment implements OnImageUriSelected {
     private FragmentProfileBinding binding;
     private ProfileViewModel viewModel;
     private OnImageUriSelected listener;
+    private User user;
     private HomeCircularAdapter profileAdapter = new HomeCircularAdapter();
     private List<FakeListItem> fakeListItems = new ArrayList<>();
 
@@ -71,7 +75,7 @@ public class ProfileFragment extends Fragment implements OnImageUriSelected {
             if (userResponse.getError().isEmpty()) {
                 binding.profileGroup.setVisibility(View.VISIBLE);
 
-                User user = userResponse.getData();
+                user = userResponse.getData();
                 setImageUsingGlide(binding.profileImageIv, user.getAvatar());
 
                 boolean isChecked = user.getAllowToSaveImage().equals("1");
@@ -93,6 +97,12 @@ public class ProfileFragment extends Fragment implements OnImageUriSelected {
                 toastMe(requireContext(), userImageResponse.getError(), false);
             }
         });
+
+        viewModel.updatedUserData.observe(getViewLifecycleOwner(), userResponse -> {
+            if (!userResponse.getError().isEmpty()) {
+                toastMe(requireContext(), userResponse.getError(), false);
+            }
+        });
     }
 
     private void checkForCameraPermission() {
@@ -107,6 +117,26 @@ public class ProfileFragment extends Fragment implements OnImageUriSelected {
     private void handleClicks() {
         binding.changeImageIv.setOnClickListener(view -> {
             checkForCameraPermission();
+        });
+
+        binding.nameEt.setOnClickListener(v -> {
+            NavDirections action = ProfileFragmentDirections.actionProfileFragmentToEditFragment(EditType.NAME);
+            Navigation.findNavController(requireView()).navigate(action);
+        });
+
+        binding.emailEt.setOnClickListener(v -> {
+            NavDirections action = ProfileFragmentDirections.actionProfileFragmentToEditFragment(EditType.EMAIL);
+            Navigation.findNavController(requireView()).navigate(action);
+        });
+
+        binding.editPassword.setOnClickListener(v -> {
+            NavDirections action = ProfileFragmentDirections.actionProfileFragmentToEditFragment(EditType.PASSWORD);
+            Navigation.findNavController(requireView()).navigate(action);
+        });
+
+        binding.saveImageSw.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            user.setAllowToSaveImage(isChecked ? "1" : "0");
+            viewModel.updateUserData(user);
         });
     }
 

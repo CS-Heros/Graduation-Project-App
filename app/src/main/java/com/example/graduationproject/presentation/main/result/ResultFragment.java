@@ -1,11 +1,10 @@
 package com.example.graduationproject.presentation.main.result;
 
-import static com.example.graduationproject.common.Utils.getImageAsMultiBodyPart;
 import static com.example.graduationproject.common.Utils.setImageUsingGlide;
 import static com.example.graduationproject.common.Utils.toastMe;
 
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +21,13 @@ import com.example.graduationproject.presentation.adapter.home_adapter.HomeCircu
 import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import okhttp3.MultipartBody;
 
 @AndroidEntryPoint
 public class ResultFragment extends Fragment {
 
     private FragmentResultBinding binding;
     private ResultViewModel viewModel;
+    private long diseaseId;
     private HomeCircularAdapter precautionAdapter = new HomeCircularAdapter();
     private HomeCircularAdapter symptomAdapter = new HomeCircularAdapter();
 
@@ -43,10 +42,12 @@ public class ResultFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(ResultViewModel.class);
-//        setDataToViews();
         binding.loadingPbView.loadingPb.setVisibility(View.VISIBLE);
-        MultipartBody.Part img = getImageAsMultiBodyPart(requireActivity(), Uri.parse(ResultFragmentArgs.fromBundle(getArguments()).getImage()), "img");
-        viewModel.uploadPhoto(img);
+        diseaseId = ResultFragmentArgs.fromBundle(getArguments()).getDiseaseId();
+        if (diseaseId == -1) diseaseId = 1;
+        Log.e("TAG", "onViewCreated: " + diseaseId);
+        viewModel.getFakeListResponseById(diseaseId);
+
         setUpRVs();
         observeData();
         handleClicks();
@@ -59,16 +60,19 @@ public class ResultFragment extends Fragment {
     }
 
     private void observeData() {
-        viewModel.diseaseImage.observe(getViewLifecycleOwner(), fakeListResponse -> {
+        viewModel.fakeList.observe(getViewLifecycleOwner(), fakeListResponse -> {
             binding.loadingPbView.loadingPb.setVisibility(View.GONE);
             if (fakeListResponse.getError().isEmpty()) {
                 binding.resultGroup.setVisibility(View.VISIBLE);
 
                 List<FakeListItem> fakeList = fakeListResponse.getData().getDiseases();
                 if (fakeList != null && fakeList.size() > 0) {
-                    setImageUsingGlide(binding.profileImageIv, fakeList.get(0).getImg());
-                    binding.aboutTitleTv.setText("Name: " + fakeList.get(0).getName());
-                    binding.aboutTextTv.setText("Description: " + fakeList.get(0).getDescription());
+                    int fakeId = (int) diseaseId - 1;
+                    String image = ResultFragmentArgs.fromBundle(getArguments()).getFakeImage() == null ? fakeList.get(fakeId).getImg() : ResultFragmentArgs.fromBundle(getArguments()).getFakeImage();
+
+                    setImageUsingGlide(binding.profileImageIv, image);
+                    binding.aboutTitleTv.setText("Name: " + fakeList.get(fakeId).getName());
+                    binding.aboutTextTv.setText("Description: " + fakeList.get(fakeId).getDescription());
 
                     //TODO set the correct data
                     precautionAdapter.submitList(fakeList);
@@ -77,11 +81,8 @@ public class ResultFragment extends Fragment {
             } else {
                 toastMe(requireContext(), fakeListResponse.getError(), false);
             }
-        });
-    }
 
-    private void setDataToViews() {
-        setImageUsingGlide(binding.profileImageIv, ResultFragmentArgs.fromBundle(getArguments()).getImage());
+        });
     }
 
     private void handleClicks() {

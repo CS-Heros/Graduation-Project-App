@@ -5,6 +5,7 @@ import com.example.graduationproject.data.data_source.network.ApiService;
 import com.example.graduationproject.domian.model.auth.AuthResponse;
 import com.example.graduationproject.domian.model.fakeListResponse.FakeListResponse;
 import com.example.graduationproject.domian.model.updateUserImage.UserImageResponse;
+import com.example.graduationproject.domian.model.update_password.PasswordResponse;
 import com.example.graduationproject.domian.model.user.UserResponse;
 
 import javax.inject.Inject;
@@ -35,6 +36,10 @@ public class RepositoryImpl {
         return apiService.getFakeListResponse(sharedPreferenceManger.getToken());
     }
 
+    public Call<FakeListResponse> getFakeListResponseById(long id) {
+        return apiService.getFakeListResponseById(sharedPreferenceManger.getToken(),id);
+    }
+
     public Call<UserResponse> getUser() {
         return apiService.getUser(sharedPreferenceManger.getToken());
     }
@@ -44,6 +49,14 @@ public class RepositoryImpl {
     }
 
     public Call<UserImageResponse> updateUserImage(MultipartBody.Part img) {
-        return apiService.updateUserImage(sharedPreferenceManger.getToken(), img, "patch");
+        return apiService.updateUserImage(sharedPreferenceManger.getToken(), "patch", img);
+    }
+
+    public Call<UserResponse> updateUserData(String name, String email, int allowToSaveImages) {
+        return apiService.updateUserData(sharedPreferenceManger.getToken(), "patch", sharedPreferenceManger.getUserId(), name, email, allowToSaveImages);
+    }
+
+    public Call<PasswordResponse> updateUserPassword(String oldPassword, String newPassword) {
+        return apiService.updateUserPassword(sharedPreferenceManger.getToken(), "patch", oldPassword, newPassword);
     }
 }

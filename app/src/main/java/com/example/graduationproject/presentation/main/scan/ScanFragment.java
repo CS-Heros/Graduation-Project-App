@@ -1,7 +1,9 @@
 package com.example.graduationproject.presentation.main.scan;
 
 
+import static com.example.graduationproject.common.Utils.getImageAsMultiBodyPart;
 import static com.example.graduationproject.common.Utils.pickImage;
+import static com.example.graduationproject.common.Utils.toastMe;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -29,6 +31,7 @@ import com.example.graduationproject.presentation.main.utils.OnImageUriSelected;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import okhttp3.MultipartBody;
 
 @AndroidEntryPoint
 public class ScanFragment extends Fragment implements OnImageUriSelected {
@@ -53,13 +56,27 @@ public class ScanFragment extends Fragment implements OnImageUriSelected {
         viewModel = new ViewModelProvider(this).get(ScanViewModel.class);
         listener = this;
         handleClicks();
+        observeData();
+    }
 
+
+    // TODO upload image must return with id
+    private void observeData() {
+        viewModel.diseaseImage.observe(getViewLifecycleOwner(), fakeListResponse -> {
+            binding.loadingPbView.loadingPb.setVisibility(View.GONE);
+            if (fakeListResponse.getError().isEmpty()) {
+                NavDirections action = ScanFragmentDirections.actionScanFragmentToResultFragment(-1, fakeListResponse.getData().getDiseases().get(0).getImg());
+                Navigation.findNavController(requireView()).navigate(action);
+            } else {
+                toastMe(requireContext(), fakeListResponse.getError(), false);
+            }
+        });
     }
 
     private void checkForCameraPermission() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             // You can use the Camera
-            pickImage(requireContext(),listener);
+            pickImage(requireContext(), listener);
         } else {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA);
         }
@@ -85,7 +102,8 @@ public class ScanFragment extends Fragment implements OnImageUriSelected {
 
     @Override
     public void onSelect(Uri uri) {
-        NavDirections action = ScanFragmentDirections.actionScanFragmentToResultFragment(uri.toString());
-        Navigation.findNavController(requireView()).navigate(action);
+        binding.loadingPbView.loadingPb.setVisibility(View.VISIBLE);
+        MultipartBody.Part img = getImageAsMultiBodyPart(requireActivity(), uri, "img");
+        viewModel.uploadPhoto(img);
     }
 }

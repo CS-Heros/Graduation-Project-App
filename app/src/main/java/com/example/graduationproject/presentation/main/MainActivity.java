@@ -90,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
                     showBackBtnAndGoToProfileBtn();
                     break;
 
+                case R.id.editFragment:
+                    binding.appBar.titleTv.setText("Edit");
+                    binding.appBar.backBtnIv.setVisibility(View.VISIBLE);
+                    binding.appBar.gotoProfileIv.setVisibility(View.GONE);
+                    binding.appBar.logoutIv.setVisibility(View.GONE);
+                    break;
+
                 default:
                     showBackBtnAndGoToProfileBtn();
                     break;

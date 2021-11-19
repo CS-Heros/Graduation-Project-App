@@ -3,6 +3,7 @@ package com.example.graduationproject.data.data_source.network;
 import com.example.graduationproject.domian.model.auth.AuthResponse;
 import com.example.graduationproject.domian.model.fakeListResponse.FakeListResponse;
 import com.example.graduationproject.domian.model.updateUserImage.UserImageResponse;
+import com.example.graduationproject.domian.model.update_password.PasswordResponse;
 import com.example.graduationproject.domian.model.user.UserResponse;
 
 import okhttp3.MultipartBody;
@@ -25,6 +26,9 @@ public interface ApiService {
     @GET("diseases")
     Call<FakeListResponse> getFakeListResponse(@Header("Authorization") String token);
 
+    @GET("diseases")
+    Call<FakeListResponse> getFakeListResponseById(@Header("Authorization") String token, @Query("id") long id);
+
     @GET("get_user_data")
     Call<UserResponse> getUser(@Header("Authorization") String token);
 
@@ -34,6 +38,23 @@ public interface ApiService {
 
     @Multipart
     @POST("update_user_avatar")
-    Call<UserImageResponse> updateUserImage(@Header("Authorization") String token, @Part MultipartBody.Part img, @Query("_method") String method);
+    Call<UserImageResponse> updateUserImage(@Header("Authorization") String token, @Query("_method") String method, @Part MultipartBody.Part img);
 
+    @POST("update_user_data")
+    Call<UserResponse> updateUserData(
+            @Header("Authorization") String token,
+            @Query("_method") String method,
+            @Query("id") Long id,
+            @Query("name") String name,
+            @Query("email") String email,
+            @Query("allowed_to_save_images") int allowToSaveImages
+    );
+
+    @POST("update_user_password")
+    Call<PasswordResponse> updateUserPassword(
+            @Header("Authorization") String token,
+            @Query("_method") String method,
+            @Query("old_password") String oldPassword,
+            @Query("new_password") String newPassword
+    );
 }

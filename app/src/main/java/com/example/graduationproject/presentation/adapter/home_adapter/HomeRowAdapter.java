@@ -20,6 +20,8 @@ public class HomeRowAdapter extends ListAdapter<FakeListItem, HomeRowAdapter.Hom
         super(CALL_BACK);
     }
 
+    private OnDiseaseItemClickListener listener;
+
     @NonNull
     @Override
     public HomeAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,12 +37,19 @@ public class HomeRowAdapter extends ListAdapter<FakeListItem, HomeRowAdapter.Hom
         holder.bind(currentItem);
     }
 
-    static class HomeAdapterViewHolder extends RecyclerView.ViewHolder {
+    class HomeAdapterViewHolder extends RecyclerView.ViewHolder {
         RowDiseaseBinding binding;
 
         public HomeAdapterViewHolder(@NonNull RowDiseaseBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
+
+            binding.getRoot().setOnClickListener(v -> {
+                int position = getBindingAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener.onDiseaseClick(getItem(position).getId());
+                }
+            });
         }
 
         public void bind(FakeListItem currentItem) {
@@ -61,5 +70,9 @@ public class HomeRowAdapter extends ListAdapter<FakeListItem, HomeRowAdapter.Hom
         public boolean areContentsTheSame(@NonNull FakeListItem oldItem, @NonNull FakeListItem newItem) {
             return false;
         }
+    }
+
+    public void setOnDiseaseClickListener(OnDiseaseItemClickListener listener) {
+        this.listener = listener;
     }
 }

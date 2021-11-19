@@ -22,4 +22,12 @@
     <string name="name">Name</string>
     <string name="history">History</string>
     <string name="allow_saving_images">Allow saving images</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="edit_password">Edit Password</string>
+    <string name="enter_new_name">Enter new name</string>
+    <string name="enter_new_email">Enter new email</string>
+    <string name="new_email">New Email</string>
+    <string name="new_name">New Name</string>
 </resources>
