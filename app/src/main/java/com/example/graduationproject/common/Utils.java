@@ -18,6 +18,7 @@ import gun0912.tedimagepicker.builder.TedImagePicker;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Retrofit;
 
 public class Utils {
     private static ShimmerDrawable getShimmerDrawable() {
@@ -53,12 +54,9 @@ public class Utils {
     }
 
     public static MultipartBody.Part getImageAsMultiBodyPart(Context context, Uri uri, String name) {
-
         String path = RealPathUtil.getRealPath(context, uri);
         File file = new File(path);
-
-        RequestBody requestBody = RequestBody.create
-                (MediaType.parse(context.getContentResolver().getType(uri)), file);
+        RequestBody requestBody = RequestBody.create(file, MediaType.parse("image/*"));
 
         return okhttp3.MultipartBody.Part.createFormData(name, file.getName(), requestBody);
     }
