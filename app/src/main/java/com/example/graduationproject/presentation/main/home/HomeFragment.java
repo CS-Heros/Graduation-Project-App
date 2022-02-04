@@ -15,10 +15,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import com.example.graduationproject.common.ResponseType;
 import com.example.graduationproject.common.SharedPreferenceManger;
 import com.example.graduationproject.databinding.FragmentHomeBinding;
 import com.example.graduationproject.domian.model.fakeListResponse.FakeListItem;
 import com.example.graduationproject.presentation.adapter.home_adapter.HomeRowAdapter;
+import com.example.graduationproject.presentation.main.MainActivity;
 
 import java.util.List;
 
@@ -69,7 +71,7 @@ public class HomeFragment extends Fragment {
         });
 
         historyAdapter.setOnDiseaseClickListener(id -> {
-            Log.e("TAG", "home: "+id);
+            Log.e("TAG", "home: " + id);
             NavDirections action = HomeFragmentDirections.actionHomeFragmentToResultFragment(id, null);
             Navigation.findNavController(requireView()).navigate(action);
         });
@@ -79,13 +81,20 @@ public class HomeFragment extends Fragment {
         viewModel.fakeListResponseDataLiveData.observe(getViewLifecycleOwner(), fakeListResponse -> {
             binding.loadingPbView.loadingPb.setVisibility(View.GONE);
 
-            if (fakeListResponse.getError().isEmpty()) {
+            Log.e("TAG", "status: " + fakeListResponse.getStatus().toString());
+            if (fakeListResponse.getStatus() == ResponseType.SUCCESS) {
                 List<FakeListItem> fakeList = fakeListResponse.getData().getDiseases();
                 if (fakeList != null && fakeList.size() > 0) {
                     binding.homeScreenGroup.setVisibility(View.VISIBLE);
                     historyAdapter.submitList(fakeList);
+
+                    Log.e("TAG", "type" + fakeListResponse.getStatus().toString());
                 }
+            } else if (fakeListResponse.getStatus() == ResponseType.AU_AUTHORIZED) {
+                // token expired
+                ((MainActivity) requireActivity()).logout();
             } else {
+                // fail
                 toastMe(requireContext(), fakeListResponse.getError(), false);
             }
         });

@@ -1,5 +1,7 @@
 package com.example.graduationproject.presentation.main;
 
+import static com.example.graduationproject.common.Utils.toastMe;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -55,10 +57,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.appBar.logoutIv.setOnClickListener(v -> {
-            sharedPreferenceManger.setHasLoggedIn(false);
-            sharedPreferenceManger.setToken("");
-            startActivity(new Intent(MainActivity.this, AuthActivity.class));
-            finish();
+            logout();
         });
     }
 
@@ -108,5 +107,12 @@ public class MainActivity extends AppCompatActivity {
         binding.appBar.gotoProfileIv.setVisibility(View.VISIBLE);
         binding.appBar.backBtnIv.setVisibility(View.VISIBLE);
         binding.appBar.logoutIv.setVisibility(View.GONE);
+    }
+
+    public void logout() {
+        sharedPreferenceManger.setHasLoggedIn(false);
+        sharedPreferenceManger.setToken("");
+        startActivity(new Intent(MainActivity.this, AuthActivity.class));
+        finish();
     }
 }

@@ -1,9 +1,12 @@
 package com.example.graduationproject.presentation.main.scan;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.graduationproject.common.ResponseType;
 import com.example.graduationproject.data.repository.RepositoryImpl;
 import com.example.graduationproject.domian.model.fakeListResponse.FakeListResponse;
 
@@ -40,7 +43,9 @@ public class ScanViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<FakeListResponse> call, Throwable t) {
-                _diseaseImage.setValue(new FakeListResponse("", "Please Check Internet connection!", null));
+                Log.e("TAG", "onFailure: " + t.getLocalizedMessage());
+                _diseaseImage.
+                        setValue(new FakeListResponse("", "Please Check Internet connection!", ResponseType.FAIL,null));
             }
         });
     }

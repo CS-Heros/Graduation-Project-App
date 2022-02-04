@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.graduationproject.common.ResponseType;
 import com.example.graduationproject.data.repository.RepositoryImpl;
 import com.example.graduationproject.domian.model.user.UserResponse;
 
@@ -41,7 +42,7 @@ public class SettingsViewModel extends ViewModel {
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 Log.e("TAG", "onFailure: " + t.getLocalizedMessage());
-                _userData.setValue(new UserResponse("", "Please Check Internet connection!", null));
+                _userData.setValue(new UserResponse("", "Please Check Internet connection!", ResponseType.FAIL,null));
             }
         });
     }

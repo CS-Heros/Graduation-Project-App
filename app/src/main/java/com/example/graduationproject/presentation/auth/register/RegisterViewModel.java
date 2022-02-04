@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.graduationproject.common.ResponseType;
 import com.example.graduationproject.data.repository.RepositoryImpl;
 import com.example.graduationproject.domian.model.auth.AuthResponse;
 
@@ -39,7 +40,7 @@ public class RegisterViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
-                authDataMutableLiveData.setValue(new AuthResponse("", "Please Check Internet connection!", null));
+                authDataMutableLiveData.setValue(new AuthResponse("", "Please Check Internet connection!", ResponseType.FAIL,null));
             }
         });
     }

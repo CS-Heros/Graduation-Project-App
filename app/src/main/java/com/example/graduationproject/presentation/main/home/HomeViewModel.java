@@ -1,20 +1,16 @@
 package com.example.graduationproject.presentation.main.home;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.graduationproject.common.RetrofitUtils;
 import com.example.graduationproject.data.repository.RepositoryImpl;
 import com.example.graduationproject.domian.model.fakeListResponse.FakeListResponse;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 @HiltViewModel
 public class HomeViewModel extends ViewModel {
@@ -30,30 +26,38 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void getFakeListResponse() {
-//        Observable<FakeListResponse> observable = repository.getFakeListResponse()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread());
-//
-//
-//        observable.subscribe(fakeListResponseDataMutableLiveData::setValue, error -> {
-//            Log.e("TAG", "getFakeListResponse: " + error.getLocalizedMessage());
-//        });
-
-        repository.getFakeListResponse().enqueue(new Callback<FakeListResponse>() {
-            @Override
-            public void onResponse(Call<FakeListResponse> call, Response<FakeListResponse> response) {
-                if (response.isSuccessful()) {
-                    fakeListResponseDataMutableLiveData.setValue(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<FakeListResponse> call, Throwable t) {
-                Log.e("TAG", "onFailure: " + t.getLocalizedMessage());
-                fakeListResponseDataMutableLiveData.
-                        setValue(new FakeListResponse("", "Please Check Internet connection!", null));
-            }
+        RetrofitUtils.safeCall(repository.getFakeListResponse(), fakeListResponse -> {
+            fakeListResponseDataMutableLiveData.setValue(fakeListResponse);
+            return null;
+        }, (error, responseType) -> {
+            fakeListResponseDataMutableLiveData.setValue(new FakeListResponse("", error, responseType, null));
+            return null;
         });
+
+
+//        repository.getFakeListResponse().enqueue(new Callback<FakeListResponse>() {
+//            @Override
+//            public void onResponse(Call<FakeListResponse> call, Response<FakeListResponse> response) {
+//                if (response.isSuccessful()) {
+//                    fakeListResponseDataMutableLiveData.setValue(response.body());
+//                } else if (response.code() == 401) {
+//                    fakeListResponseDataMutableLiveData.setValue(
+//                            new FakeListResponse("", "", ResponseType.AU_AUTHORIZED, null)
+//                    );
+//                } else {
+//                    fakeListResponseDataMutableLiveData.setValue(
+//                            new FakeListResponse("", "Something went wrong please try again!", ResponseType.FAIL, null)
+//                    );
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<FakeListResponse> call, Throwable t) {
+//                fakeListResponseDataMutableLiveData.setValue(
+//                        new FakeListResponse("", "Please Check Internet connection!", ResponseType.FAIL, null)
+//                );
+//            }
+//        });
     }
 
 }
